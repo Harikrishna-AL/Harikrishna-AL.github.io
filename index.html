@@ -1,111 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Harikrishna Pillai</title>
+    <title>Your Name | Continual Learning</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=JetBrains+Mono&display=swap" rel="stylesheet">
 </head>
-
 <body>
+
     <header>
         <nav>
-            <div class="container">
-
-                <ul align="center">
-                    <li><a href="#about">About Me</a></li>
-                    <li><a href="#projects">Projects</a></li>
-                    <li><a href="#contact">Contact</a></li>
-                </ul>
-            </div>
-        </nav>
-    </header>
-    <!-- <section>
-        <nav style="">
+            <div class="logo">μ (mu)</div>
             <ul>
-                <li><a href="#about">About Me</a></li>
-                <li><a href="#projects">Projects</a></li>
-                <li><a href="#contact">Contact</a></li>
+                <li><a href="#about" class="active">About</a></li>
+                <li><a href="#notes">Scientific Notes</a></li>
             </ul>
         </nav>
-    </section> -->
+    </header>
 
-    <section id="hero">
-        <!-- <div class="hero-overlay"> -->
-        <!-- <div class="hero-content"> -->
-        <!-- <div> -->
-        <div class="hero-gif" style="width: 100%; background-color: white; margin: 0%;">
-            <img src="array2.gif" alt="AI Animation">
-        </div>
-        <div align="center">
-            <h2 class="glow-text" style="font-family: cursive;">Hello! I'm Harikrishna</h2>
-            <p>Passionate about building innovative AI solutions. Working on the intersection of AI and neuroscience. <br>  Worked on building end-to-end systems. On a quest to solve and contribute to future foundation models</p>
-            <br>
-            <div align="center" float="center">
-            <a href="https://github.com/Harikrishna-AL" class="btn" target="_blank">Check out my Projects</a>
-            <a href="./Hari_cv.pdf" class="btn" target="_blank">CV</a>
+    <main>
+        <section id="hero">
+            <canvas id="distributionCanvas"></canvas>
+            <div class="hero-text">
+                <h1>Hi, I'm [Your Name].</h1>
+                <p>Researcher & Engineer.</p>
+                <p class="subtitle">Focusing on Continual Learning and Bayesian Inference.</p>
             </div>
-        </div>
-        <!-- </div> -->
-        <!-- </div> -->
-        <!-- </div> -->
-    </section>
-    <hr>
-    <section id="about" class="fade-in">
-        <div class="container">
-            <h2>About Me</h2>
-            <p>Student at Amrita Vishwa Vidyapeetham, India, pursuing a B.Tech degree in Computer Science and Artificial Intelligence
-                Engineering. Passionate about Machine Learning and Deep Learning models, with a particular interest in generative models
-                like <b style="color: aquamarine;">GANs</b>, <b style="color: aquamarine;">Diffusion models</b> and <b style="color: aquamarine;">Transformers</b>. Experimenting with <b style="color: aquamarine;">Neuroscience</b> inspired AI topics. Working on <b style="color: aquamarine;">Adaptive
-                and Collective Intelligence</b> using Growing Neural Networks. Other interests include Game Development and 3D Graphics,
-                with experience in working with <b style="color: aquamarine;">Unity, Godot, and Blender</b>.</p>
-        </div>
-    </section>
-    <hr>
-    <section id="projects" class="fade-in">
-        <div class="container">
-            <h2>Spotlight Projects</h2>
-            <div class="project-grid">
-                <div class="project">
-                    <a href="https://appflowy.com/07ca7474-1e31-4ae7-9af2-abdc07ffecc5/CAN-Continuously-Adapting-Networks-5132ed1b-28ec-4297-9858-ed5c6b6cb7a5" target="_blank" style="text-decoration: none; color: inherit;">
-                        <h3>Continuously Adaptive Neural Networks</h3>
-                        <p>An innovative project focusing on solving catastrophic forgetting using a mix of supervised and un-supervised learning.</p>
-                    </a>
-                </div>
-                <div class="project">
-                    <a href="https://github.com/Harikrishna-AL/MusicAI_Evolver" target="_blank" style="text-decoration: none; color: inherit;">
-                        <h3>MusicAI Evolver</h3>
-                        <p>An experimental AI system using Particle Swarm Optimization to compose music based on original audio input.</p>
-                    </a>
-                </div>
-                <div class="project">
-                    <a href="https://github.com/Harikrishna-AL/sasta_skit" target="_blank" style="text-decoration: none; color: inherit;">
-                        <h3>Sasta Skit</h3>
-                        <p>Automates call centers using AI. Used VoiceAI and generative models to build it.</p>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
-    
-    <hr>
-    <section id="contact" class="fade-in">
-        <div class="container">
-            <h2>Contact Me</h2>
-            <p>Email: <a href="mailto:hari3032003@gmail.com">hari3032003@gmail.com</a></p>
-            <p>Telegram: <a href="https://t.me/Dragonixx_03">@Dragonixx_03</a></p>
-        </div>
-    </section>
+        </section>
 
-    <!-- <footer>
-        <div class="container">
-            <p>&copy; 2024 Harikrishna Pillai. All rights reserved.</p>
-        </div>
-    </footer> -->
+        <section id="content">
+            <div id="about" class="page-section">
+                <h2>About Me</h2>
+                <p>
+                    I am exploring the intersection of biological plausibility and machine learning. 
+                    My work focuses on how systems can acquire new skills without forgetting old ones.
+                </p>
+            </div>
+
+            <div id="notes" class="page-section hidden">
+                <h2>Scientific Notes</h2>
+                <div id="notes-list">
+                    </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 [Your Name]. Modeled with JS.</p>
+    </footer>
 
     <script src="script.js"></script>
 </body>
-
 </html>
