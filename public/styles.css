@@ -1,0 +1,251 @@
+:root {
+    --bg: #f8f9fa;
+    --text: #212529;
+    --accent: #2c5bf0; /* Academic Blue */
+    --faint: #dee2e6;
+    --mono: 'JetBrains Mono', monospace;
+    --sans: 'Inter', sans-serif;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    line-height: 1.6;
+}
+
+/* Layout: Sidebar + Main */
+.layout {
+    display: flex;
+    min-height: 100vh;
+}
+
+aside {
+    width: 250px;
+    padding: 3rem 2rem;
+    border-right: 1px solid rgba(0,0,0,0.1);
+    position: fixed;
+    height: 100vh;
+    background: var(--bg);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+main {
+    margin-left: 250px;
+    width: calc(100% - 250px);
+    padding: 0;
+}
+
+/* Sidebar Styling */
+h1 { font-size: 1.5rem; font-weight: 700; letter-spacing: -0.5px; }
+.tagline { font-family: var(--mono); font-size: 0.75rem; color: #666; margin-top: 0.5rem; }
+
+nav { display: flex; flex-direction: column; gap: 1rem; margin-top: 3rem; }
+nav a {
+    text-decoration: none;
+    color: #888;
+    font-family: var(--mono);
+    font-size: 0.9rem;
+    transition: color 0.2s;
+}
+nav a:hover, nav a.active { color: var(--accent); font-weight: 700; }
+
+.socials { display: flex; flex-direction: column; gap: 0.5rem; font-size: 0.85rem; }
+.socials a { color: var(--text); text-decoration: none; border-bottom: 1px dotted #ccc; width: fit-content;}
+
+/* Canvas Section */
+#home {
+    height: 60vh;
+    position: relative;
+    border-bottom: 1px solid var(--faint);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+.canvas-container {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    z-index: 0;
+    overflow: hidden;
+}
+
+.overlay-stats {
+    position: absolute;
+    top: 2rem; right: 2rem;
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    color: var(--accent);
+    text-align: right;
+    pointer-events: none;
+}
+
+.intro-text {
+    position: relative;
+    z-index: 1;
+    padding: 3rem 4rem;
+    background: linear-gradient(to top, var(--bg) 80%, transparent);
+    pointer-events: none;
+}
+
+h2 { font-size: 2.5rem; line-height: 1.1; margin-bottom: 1rem; letter-spacing: -1px;}
+
+/* Content Sections */
+section { padding: 4rem; max-width: 900px; }
+
+.section-header {
+    font-family: var(--mono);
+    font-size: 0.9rem;
+    color: #888;
+    text-transform: uppercase;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid var(--faint);
+    padding-bottom: 0.5rem;
+}
+
+.text-block p { margin-bottom: 1.5rem; font-size: 1.1rem; color: #333; }
+.highlight { background: #e0e7ff; color: var(--accent); padding: 0 4px; border-radius: 2px; font-family: var(--mono); font-size: 0.9em; }
+
+/* Grid for Projects */
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem; }
+
+.card {
+    border: 1px solid #eee;
+    padding: 1.5rem;
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.2s, box-shadow 0.2s;
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.card:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,0.05); border-color: var(--accent); }
+
+.card-header { display: flex; justify-content: space-between; margin-bottom: 1rem; }
+.card h4 { font-size: 1.1rem; font-weight: 600; }
+.card p { font-size: 0.9rem; color: #666; margin-bottom: 1rem; }
+.tags span { 
+    display: inline-block; background: #f1f3f5; font-size: 0.75rem; 
+    padding: 2px 8px; margin-right: 5px; border-radius: 4px; font-family: var(--mono);
+}
+
+/* Notes Styles */
+.note-item { margin-bottom: 3rem; }
+.note-meta { font-family: var(--mono); font-size: 0.8rem; color: #999; margin-bottom: 0.5rem; }
+.note-title { font-size: 1.4rem; margin-bottom: 1rem; font-weight: 600; }
+.note-body { font-size: 1rem; color: #444; border-left: 2px solid var(--accent); padding-left: 1rem; }
+
+/* Responsive */
+@media (max-width: 768px) {
+    .layout { flex-direction: column; }
+    aside { width: 100%; height: auto; position: relative; padding: 1.5rem; border-right: none; border-bottom: 1px solid #eee; }
+    main { width: 100%; margin: 0; }
+    nav { flex-direction: row; flex-wrap: wrap; margin-top: 1rem; }
+    section { padding: 2rem; }
+    h2 { font-size: 1.8rem; }
+}
+
+/* =========================================
+   SINGLE NOTE PAGE STYLING
+   ========================================= */
+
+/* Center the content for reading */
+.single-note-page {
+    background-color: #fcfcfc;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.note-nav {
+    width: 100%;
+    max-width: 800px;
+    padding: 2rem 0;
+    display: flex;
+    justify-content: space-between;
+    font-family: var(--mono);
+    font-size: 0.85rem;
+    border-bottom: 1px solid #eee;
+    margin-bottom: 3rem;
+}
+
+.back-link {
+    text-decoration: none;
+    color: var(--accent);
+    font-weight: 600;
+}
+.back-link:hover { text-decoration: underline; }
+
+.note-id { color: #aaa; }
+
+.reading-container {
+    max-width: 740px; /* Optimal reading width */
+    width: 100%;
+    padding: 0 1.5rem 4rem 1.5rem;
+    margin-left: 0 !important; /* Overriding the sidebar margin from main page */
+}
+
+.note-header { margin-bottom: 3rem; }
+
+.note-header h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-top: 0.5rem;
+    color: #111;
+}
+
+.note-footer {
+    margin-top: 4rem;
+    padding-top: 2rem;
+    font-size: 0.9rem;
+    color: #888;
+    text-align: center;
+}
+.note-footer a { color: var(--accent); text-decoration: none; }
+
+/* Links on the Main Page */
+.note-link-item {
+    display: flex;
+    justify-content: space-between; /* Spread items out */
+    align-items: center;
+    padding: 1rem 0;
+    border-bottom: 1px solid #eee;
+    text-decoration: none;
+    color: var(--text);
+    transition: 0.2s;
+}
+
+.note-link-item:hover {
+    color: var(--accent);
+    padding-left: 10px; /* Subtle slide effect */
+    border-bottom: 1px solid var(--accent);
+}
+
+.note-link-item .note-date {
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    color: #999;
+    width: 100px; /* Fixed width for alignment */
+}
+
+.note-link-item .note-title {
+    flex-grow: 1; /* Takes up remaining space */
+    font-weight: 500;
+}
+
+.note-link-item .note-arrow {
+    opacity: 0;
+    transform: translateX(-10px);
+    transition: 0.2s;
+}
+
+.note-link-item:hover .note-arrow {
+    opacity: 1;
+    transform: translateX(0);
+}

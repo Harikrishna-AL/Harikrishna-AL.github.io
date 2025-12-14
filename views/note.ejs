@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Note: Generative Replay | Harikrishna Pillai</title>
+    <link rel="stylesheet" href="../styles.css">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <!-- <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script> -->
+     
+</head>
+<body class="single-note-page">
+
+    <nav class="note-nav">
+        <a href="/" class="back-link">&larr; Return to Index</a>
+    </nav>
+
+    <main class="reading-container">
+        <header class="note-header">
+            <div class="note-meta">Published: <%= date %> &bull; Category: <%= category %></div>
+            <h1><%= title %></h1>
+        </header>
+
+        <article class="note-content">
+            <% if (abstract) { %>
+                <div class="abstract">
+                    <strong>Abstract:</strong> <%= abstract %>
+                </div>
+            <% } %>
+
+            <div class="markdown-body">
+                <%- content %>
+            </div>
+        </article>
+
+        <footer class="note-footer">
+            <hr>
+            <p>Harikrishna Pillai &copy; 2024</p>
+        </footer>
+    </main>
+    
+   <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']], // Allow $ for inline
+        displayMath: [['$$', '$$'], ['\\[', '\\]']] // Allow $$ for block
+      },
+      svg: {
+        fontCache: 'global'
+      }
+    };
+    </script>
+
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+</body>
+</html>
