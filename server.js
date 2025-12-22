@@ -44,6 +44,32 @@ app.get('/posts/:slug', (req, res) => {
     if (fs.existsSync(filePath)) {
         const fileContent = fs.readFileSync(filePath, 'utf-8');
         const { data, content } = matter(fileContent);
+
+        const renderer = new marked.Renderer();
+        let refCount = 0;
+        let inReferenceSection = false;
+
+        // 2. Intercept Headings
+        renderer.heading = (text, level) => {
+            // Check if the heading is "References"
+            if (text.toLowerCase().includes('references')) {
+                inReferenceSection = true;
+            }
+            return `<h${level}>${text}</h${level}>`;
+        };
+
+        // 3. Intercept List Items
+        renderer.listitem = (text) => {
+            if (inReferenceSection) {
+                refCount++;
+                // Automatically add id="ref-X" to the list item
+                return `<li id="ref-${refCount}">${text}</li>`;
+            }
+            return `<li>${text}</li>`;
+        };
+
+        // 4. Apply the renderer
+        marked.use({ renderer });
         
         // Convert Markdown content to HTML
         const htmlContent = marked.parse(content);

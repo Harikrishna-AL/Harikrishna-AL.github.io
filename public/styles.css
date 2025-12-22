@@ -249,3 +249,36 @@ section { padding: 4rem; max-width: 900px; }
     opacity: 1;
     transform: translateX(0);
 }
+
+/* Markdown Images */
+.markdown-body img {
+    max-width: 100%; /* Prevent scrolling */
+    height: auto;
+    display: block;
+    margin: 2rem auto 0.5rem auto; /* Center it */
+    border-radius: 4px;
+    border: 1px solid #eee;
+}
+
+/* Caption styling (Italic text immediately following an image) */
+.markdown-body img + em {
+    display: block;
+    text-align: center;
+    font-size: 0.85rem;
+    color: #666;
+    margin-bottom: 2rem;
+}
+
+/* Style Ordered Lists that appear after a "References" heading */
+.markdown-body h3:last-of-type + ol {
+    font-size: 0.85rem;
+    color: #555;
+    background: #f8f9fa;
+    padding: 1.5rem 1.5rem 1.5rem 3rem;
+    border-left: 3px solid #dee2e6;
+}
+
+.markdown-body h2:last-of-type + ol li {
+    margin-bottom: 0.5rem;
+    padding-left: 0.5rem;
+}
