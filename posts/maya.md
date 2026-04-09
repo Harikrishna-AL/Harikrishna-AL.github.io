@@ -2,7 +2,7 @@
 title: Approaching Online Continual Learning with MAYA
 date: 2025-12-22
 category: Theorems
-abstract: MAYA: MANIFOLD-ALIGNED YIELDING ARCHITECTURE FOR ONLINE CONTINUAL LEARNING
+abstract: 'MAYA: Manifold-Aligned Yielding Architecture for Online Continual Learning'
 ---
 
 ### Introduction
