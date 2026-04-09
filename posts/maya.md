@@ -42,7 +42,7 @@ How do you take the intra-class variations into account? I decided that multiple
 <div id="fig1" align="center">
     <img src="/images/maya/maya-01.png" width="80%">
     <!-- <br> -->
-    <em>Fig 1. K-means clustering of features of the current class<a href="#ref-1"><sup>[1]</sup></a></em>
+    <em>Fig 1. K-means clustering of features of the current class</em>
 </div>
 
 If you now implement a simple inference procedure, where the model inferes using the NCM (Nearest Class Mean) classifier and the above mentioned memory, you will notice that the performance is not that great. Why? I feel there might be two reasons for this. First, every backbone is trained on a specific dataset with specific training procedure. Therefore, all of them will have a bias which can work against or favor certain classes. Second, the backbone was not trained well to separate the classes well. 
@@ -62,4 +62,26 @@ If you now implement a simple inference procedure, where the model inferes using
 \end{algorithmic}
 \end{algorithm}
 ```
+
+<br>
+
+How to solve the first problem? One can do that by removing the variations in the features caused by the backbone's bias. In order to do that, a matrix $P$ is computed using the formula $P = (A + \lambda I)^{-1}B$. Here $A$ represents the backbone's feature correlations (its bias), and $B$ represents the class-to-target mappings. Projecting the features using this matrix $P$ removes the backbone's bias and helps in better classification. 
+
+<br>
+
+To solve the second problem, we can use the concept of **Equiangular Tight Frame (ETF)**<a href="#ref-1"><sup>[1]</sup></a>. ETF is a set of vectors that are equally separated from each other. These vectors are used as targets for the features of the current class and since they are equi-distant, there is no confusion between the classes. All the NCM vectors and the vectors used to compute the $A$ and $B$ are projected onto the ETF space. 
+
+<div id="fig2" align="center">
+    <img src="/images/maya/maya-02.png" width="80%">
+    <!-- <br> -->
+    <em>Fig 2. ETF targets for the features of the current class<a href="#ref-1"><sup>[1]</sup></a></em>
+</div>
+
+<br>
+
+Now to infer, we use the ETF projected NCM vectors and the projected vectors from the memory to get two output distributions. Both of these distributions are then combined using a weighted average to get the final output distribution. 
+
+### References
+
+1. Rethinking Continual Learning with Progressive Neural Collapse. https://arxiv.org/abs/2505.24254
 
