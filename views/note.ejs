@@ -10,6 +10,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/katex.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/katex.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pseudocode@latest/build/pseudocode.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/pseudocode@latest/build/pseudocode.min.js"></script>
     <!-- <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script> -->
      
 </head>
@@ -54,6 +58,27 @@
         fontCache: 'global'
       }
     };
+    </script>
+    
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        document.querySelectorAll("pre code.language-algorithm, pre code.language-pseudocode").forEach(block => {
+            const pre = block.parentElement;
+            const algoDiv = document.createElement("div");
+            try {
+                // pseudocode.js does not support \label, so we strip it out before rendering
+                const cleanedContent = block.textContent.replace(/\\label\{[^}]*\}/g, '');
+                pseudocode.render(cleanedContent, algoDiv, { mathEngine: 'katex', lineNumber: true });
+                pre.parentNode.replaceChild(algoDiv, pre);
+            } catch (e) {
+                console.error("Pseudocode evaluation error:");
+                console.error(e.message || e);
+                console.error("Stack:", e.stack);
+                console.error("Text content was:", JSON.stringify(block.textContent));
+                // Keep the original block if algorithm parsing fails
+            }
+        });
+    });
     </script>
 
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
