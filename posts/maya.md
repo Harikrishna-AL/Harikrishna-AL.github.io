@@ -40,7 +40,7 @@ If we think of the CL problem keeping the backbone fixed, then the problem reduc
 How do you take the intra-class variations into account? I decided that multiple vectors can be used to represent a class. This makes more sense as these multiple vectors can roughly capture the manifold of the class. To decide what vectors to store, I used k-means clustering to cluster the features of the current class and store the cluster centroids as the vectors for the current class. 
 
 <div id="fig1" align="center">
-    <img src="/images/maya/maya-01.png" width="80%">
+    <img src="/images/maya/research_key_fig.svg" width="80%">
     <!-- <br> -->
     <em>Fig 1. K-means clustering of features of the current class</em>
 </div>
@@ -72,7 +72,7 @@ How to solve the first problem? One can do that by removing the variations in th
 To solve the second problem, we can use the concept of **Equiangular Tight Frame (ETF)**<a href="#ref-1"><sup>[1]</sup></a>. ETF is a set of vectors that are equally separated from each other. These vectors are used as targets for the features of the current class and since they are equi-distant, there is no confusion between the classes. All the NCM vectors and the vectors used to compute the $A$ and $B$ are projected onto the ETF space. 
 
 <div id="fig2" align="center">
-    <img src="/images/maya/maya-02.png" width="80%">
+    <img src="/images/maya/etf_projection_fig.svg" width="80%">
     <!-- <br> -->
     <em>Fig 2. ETF targets for the features of the current class<a href="#ref-1"><sup>[1]</sup></a></em>
 </div>
@@ -80,6 +80,23 @@ To solve the second problem, we can use the concept of **Equiangular Tight Frame
 <br>
 
 Now to infer, we use the ETF projected NCM vectors and the projected vectors from the memory to get two output distributions. Both of these distributions are then combined using a weighted average to get the final output distribution. 
+
+```pseudocode
+\begin{algorithm}
+\caption{Online Continual Learning with NCM and K-Means}
+\begin{algorithmic}
+\Require Backbone $f$, Memory $M = \{\mathcal{G}_c\}_{c \in \mathcal{C}}$
+\State \textbf{Update}(x, y): 
+\State $\mathbf{z} \leftarrow f(x)$
+\State $\mathcal{G}_y \leftarrow \text{UpdateCluster}(\mathcal{G}_y, \mathbf{z})$
+\State \textbf{Infer}(x): 
+\State $\mathbf{z} \leftarrow f(x)$
+\State $y^* \leftarrow \arg\max_c \text{Score}(\mathbf{z}, \mathcal{G}_c)$
+\end{algorithmic}
+\end{algorithm}
+```
+
+<br>
 
 ### References
 
