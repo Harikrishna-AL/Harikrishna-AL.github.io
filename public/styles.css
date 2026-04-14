@@ -269,6 +269,29 @@ section { padding: 4rem; max-width: 900px; }
     margin-bottom: 2rem;
 }
 
+/* Markdown Tables */
+.markdown-body table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 2rem 0;
+    font-size: 0.95rem;
+}
+
+.markdown-body th, .markdown-body td {
+    padding: 12px 15px;
+    border: 1px solid var(--faint);
+    text-align: left;
+}
+
+.markdown-body th {
+    background-color: #f1f3f5;
+    font-weight: 600;
+}
+
+.markdown-body tr:nth-of-type(even) {
+    background-color: var(--bg);
+}
+
 /* Style Ordered Lists that appear after a "References" heading */
 .markdown-body h3:last-of-type + ol {
     font-size: 0.85rem;

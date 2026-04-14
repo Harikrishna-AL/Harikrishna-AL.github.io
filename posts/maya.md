@@ -42,13 +42,13 @@ How do you take the intra-class variations into account? I decided that multiple
 <div id="fig1" align="center">
     <img src="/images/maya/research_key_fig.svg" width="80%">
     <!-- <br> -->
-    <em>Fig 1. K-means clustering of features of the current class</em>
+    <em>Fig 1. K-means clustering of features of the current class to capture the approximate manifold of the class</em>
 </div>
 
 If you now implement a simple inference procedure, where the model inferes using the NCM (Nearest Class Mean) classifier and the above mentioned memory, you will notice that the performance is not that great. Why? I feel there might be two reasons for this. First, every backbone is trained on a specific dataset with specific training procedure. Therefore, all of them will have a bias which can work against or favor certain classes. Second, the backbone was not trained well to separate the classes well. 
 
 
-```pseudocode
+<!-- ```pseudocode
 \begin{algorithm}
 \caption{Online Continual Learning with NCM and K-Means}
 \begin{algorithmic}
@@ -60,8 +60,26 @@ If you now implement a simple inference procedure, where the model inferes using
 \State $\mathbf{z} \leftarrow f(x)$
 \State $y^* \leftarrow \arg\max_c \text{Score}(\mathbf{z}, \mathcal{G}_c)$
 \end{algorithmic}
-\end{algorithm}
+\end{algorithm} -->
+
+```pseudocode
+\begin{algorithm}
+\caption{Baseline Continual Learning: NCM + K-Means}
+\begin{algorithmic}
+\Require Backbone $f$, Mean Prototypes $\{\mu_c\}$, Cluster Centroids $\{V_c\}$
+\State \textbf{Update}(x, y):
+\State $\mathbf{z} \leftarrow f(x)$ \Comment{Extract features}
+\State $\mu_y \leftarrow \text{MovingAverage}(\mu_y, \mathbf{z})$ \Comment{Update Global Class Mean (NCM)}
+\State $V_y \leftarrow \text{StreamKMeans}(V_y, \mathbf{z})$ \Comment{Update Local Cluster Centroids}
+\State \textbf{Infer}(x):
+   \State $\mathbf{z} \leftarrow f(x)$
+   \State $S_{ncm} \leftarrow \text{CosineSim}(\mathbf{z}, \mu_c)$ \Comment{Global similarity score}
+   \State $S_{km} \leftarrow \max_{v \in V_c} \text{CosineSim}(\mathbf{z}, v)$ \Comment{Local similarity (Nearest Cluster)}
+   \State $y^* \leftarrow \arg\max_c (\alpha \cdot S_{km} + (1 - \alpha) \cdot S_{ncm})$ \Comment{Weighted voting}
+   \end{algorithmic}
+   \end{algorithm}
 ```
+
 
 <br>
 
@@ -81,7 +99,7 @@ To solve the second problem, we can use the concept of **Equiangular Tight Frame
 
 Now to infer, we use the ETF projected NCM vectors and the projected vectors from the memory to get two output distributions. Both of these distributions are then combined using a weighted average to get the final output distribution. 
 
-```pseudocode
+<!-- ```pseudocode
 \begin{algorithm}
 \caption{Online Continual Learning with NCM and K-Means}
 \begin{algorithmic}
@@ -94,7 +112,95 @@ Now to infer, we use the ETF projected NCM vectors and the projected vectors fro
 \State $y^* \leftarrow \arg\max_c \text{Score}(\mathbf{z}, \mathcal{G}_c)$
 \end{algorithmic}
 \end{algorithm}
+``` -->
+
+```pseudocode
+\begin{algorithm}
+\caption{MAYA: Manifold-Aligned Yielding Architecture}
+\begin{algorithmic}
+\Require Backbone $f$, ETF Targets $W_{etf}$, Accumulators $A, B$, Memory $\mathcal{M} = \{\mathcal{G}_c\}_{c \in \mathcal{C}}$
+\State \textbf{Update}(x, y):
+\State $\mathbf{z} \leftarrow f(x)$ \Comment{Extract frozen features}
+\State $\mathcal{G}_y \leftarrow \text{StreamKMeans}(\mathcal{G}_y, \mathbf{z})$ \Comment{Update local episodic manifold}
+\State $A \leftarrow A + \mathbf{z}\mathbf{z}^\top, \quad B \leftarrow B + \mathbf{z}\mathbf{w}_y^\top$ \Comment{Recursive stats for class-to-ETF
+      mapping}
+\State $P \leftarrow (A + \lambda I)^{-1}B$ \Comment{Closed-form projection matrix solve}
+\State \textbf{Infer}(x):
+\State $\mathbf{z} \leftarrow f(x)$
+\State $\mathbf{z}' \leftarrow \text{Normalize}(\mathbf{z}P)$ \Comment{Map native manifold to ETF space}
+\State $S_{local} \leftarrow \text{LogSumExp}(\text{Sim}(\mathbf{z}', \text{Nodes in } \mathcal{G}_c))$ \Comment{System 1: Episodic Density}
+\State $S_{global} \leftarrow \text{CosineSim}(\mathbf{z}', \mathbf{w}_c)$ \Comment{System 2: Global ETF Alignment}
+\State $y^* \leftarrow \arg\max_c (\alpha \cdot S_{local} + (1 - \alpha) \cdot S_{global})$ \Comment{Dual-system vote}
+\end{algorithmic}
+\end{algorithm}
 ```
+
+<br>
+
+### Results
+
+Maya was tested on class-incremental learning benchmarks and achieved competitive results with state-of-the-art methods. split-ImageNet-R, split-TinyImageNet and split-ObjectNet are the benchmarks used to evaluate the performance of Maya. 
+
+<!-- add table here and add column headings-->
+<table>
+    <tr>
+        <td><b>Benchmark</b></td>
+        <td><b>Backbone</b></td>
+        <td><b>Avg. Accuracy (%)</b></td>
+        <td><b>Forgetting (%)</b></td>
+        <td><b>NCM Acc. (%)</b></td>
+    </tr>
+    <tr>
+        <td>split-ImageNet-R</td>
+        <td>ResNet-50</td>
+        <td>51.32</td>
+        <td>6.34</td>
+        <td>40.69</td>
+    </tr>
+    <tr>
+        <td>split-ImageNet-R</td>
+        <td>Siglip 2</td>
+        <td>94.98</td>
+        <td>1.54</td>
+        <td>95.25</td>
+    </tr>
+    <tr>
+        <td>split-TinyImageNet</td>
+        <td>ResNet-50</td>
+        <td>70.34</td>
+        <td>8.06</td>
+        <td>63.29</td>
+    </tr>
+    <tr>
+        <td>split-TinyImageNet</td>
+        <td>Siglip 2</td>
+        <td>88.41</td>
+        <td>3.61</td>
+        <td>86.11</td>
+    </tr>
+    <tr>
+        <td>split-ObjectNet</td>
+        <td>ResNet-50</td>
+        <td>21.65</td>
+        <td>8.04</td>
+        <td>19.41</td>
+    </tr>
+    <tr>
+        <td>split-ObjectNet</td>
+        <td>Siglip 2</td>
+        <td>78.67</td>
+        <td>6.8</td>
+        <td>76.59</td>
+    </tr>
+</table>
+
+In most of these experiments, MAYA outperforms the baseline NCM method at the same time performs really close to the upper bound (Replay + Linear Classifier).
+
+<br>
+
+### Conclusion
+
+MAYA is a simple yet effective method for online continual learning. It achieves this by using a two-system approach. One system infers via a memory made using K-means clustering of the features of the current class. The other system projects the features onto the ETF space and infers using the ETF projected NCM vectors and the projected vectors from the memory. Together, these two systems achieve competitive results with state-of-the-art methods. 
 
 <br>
 
