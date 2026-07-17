@@ -204,6 +204,41 @@ MAYA is a simple yet effective method for online continual learning. It achieves
 
 <br>
 
+```pseudocode
+\begin{algorithm}
+\caption{MAYA: Analytic ETF Alignment (Pythonic Logic)}
+\begin{algorithmic}
+\Require Backbone $f$, ETF Matrix $W \in \mathbb{R}^{C \times D_{align}}$, parameters $\lambda, \alpha$
+\State \textbf{Initialize:} $A \leftarrow \mathbf{0}^{D \times D}, B \leftarrow \mathbf{0}^{D \times D_{align}}, \mathcal{M} \leftarrow \emptyset$
+
+\Function{Update}{$x, y$} \Comment{Online Stream Phase}
+    \State $\mathbf{z} \leftarrow f(x)$ \Comment{Feature extraction}
+    \State $\mathcal{M} \leftarrow \mathcal{M} \cup \{(\mathbf{z}, y)\}$ \Comment{Store in episodic memory}
+    \State $A \leftarrow A + \mathbf{z}\mathbf{z}^\top$
+    \State $B \leftarrow B + \mathbf{z}\mathbf{w}_y^\top$
+    \State $P \leftarrow (A + \lambda I)^{-1}B$ \Comment{Solve for Projection Matrix}
+\EndFunction
+
+\Function{Consolidate}{} \Comment{Offline Sleep Phase}
+    \For{each class $c \in \mathcal{M}$}
+        \State $\mathcal{G}_c \leftarrow \text{KMeans}(\{\mathbf{z} \in \mathcal{M} \mid y = c\}, k)$ \Comment{Extract high-fidelity nodes}
+        \State $\mu_c \leftarrow \text{Mean}(\{\mathbf{z} \in \mathcal{M} \mid y = c\})$
+    \EndFor
+    \State $\mathcal{M} \leftarrow \emptyset$ \Comment{Clear buffer}
+\EndFunction
+
+\Function{Infer}{$x$} \Comment{Dual-System Inference}
+    \State $\mathbf{z} \leftarrow f(x)$
+    \State $\mathbf{z}' \leftarrow \text{Normalize}(\mathbf{z}P)$ \Comment{Project to ETF space}
+    \State $S_{etf} \leftarrow \mathbf{z}' W^\top$ \Comment{System 2: Global Score}
+    \State $\mathcal{C}_{top} \leftarrow \text{top-K}(\text{Softmax}(S_{etf}))$
+    \State $S_{node} \leftarrow \text{LogSumExp}(\text{Sim}(\mathbf{z}', \text{Nodes } \in \mathcal{C}_{top}))$ \Comment{System 1: Local Score}
+    \State \Return $\arg\max_{c \in \mathcal{C}_{top}} (\alpha \cdot S_{node} + (1-\alpha) \cdot S_{etf})$
+\EndFunction
+\end{algorithmic}
+\end{algorithm}
+```
+
 ### References
 
 1. Rethinking Continual Learning with Progressive Neural Collapse. https://arxiv.org/abs/2505.24254

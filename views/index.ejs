@@ -24,109 +24,61 @@
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <body>
+    <div class="canvas-container">
+        <canvas id="mathCanvas"></canvas>
+    </div>
 
-    <div class="layout">
-        <aside>
-            <div class="brand">
-                <h1>Harikrishna<br>Pillai</h1>
-                <p class="tagline">Love Science <3</p>
-            </div>
-            <nav>
-                <a href="#home" class="active">/home</a>
-                <a href="#about">/about</a>
-                <a href="#projects">/projects</a>
-                <a href="#notes">/scientific_notes</a>
-            </nav>
-            <div class="socials">
-                <a href="https://github.com/Harikrishna-AL" target="_blank">GitHub</a>
-                <a href="./Hari_cv.pdf" target="_blank">CV</a>
+    <div id="app">
+        <header class="site-header">
+            <h1>Harikrishna Pillai</h1>
+            <p>
+                Master's Student at <strong>Technische Universität Dresden</strong>, Germany. <br><br>
+                Love experimenting with Neuroscience and Nature inspired AI topics. Currently working on <strong>Continual Learning</strong> to create general and adaptive Neural Networks with <strong>Memory</strong>. Beyond research, I enjoy Game Development and 3D Graphics.
+            </p>
+
+            <div class="social-links">
+                <a href="https://github.com/Harikrishna-AL" target="_blank">GitHub</a> |
+                <a href="./Hari_cv.pdf" target="_blank">CV</a> |
                 <a href="mailto:hari3032003@gmail.com">Email</a>
             </div>
-        </aside>
+        </header>
 
-        <main>
-            
-            <section id="home">
-                <div class="canvas-container">
-                    <canvas id="mathCanvas"></canvas>
-                    <div class="overlay-stats">
-                        <span class="stat-label">MODEL STATE:</span> <span id="model-status">LEARNING...</span><br>
-                        <span class="stat-label">DISTRIBUTION:</span> GAUSSIAN MIXTURE
-                    </div>
-                </div>
-                <div class="intro-text">
-                    <h2>Continual Learning &<br>Adaptive Intelligence</h2>
-                    <p>Working on the intersection of AI and Neuroscience. Building systems that can continually learn without forgetting.</p>
-                </div>
-            </section>
+        <nav class="links">
+            <h3>Research Works</h3>
+            <a href="javascript:void(0)" class="project-link" style="cursor: default;">
+                <span class="link-content"><strong>[Under Review @ TMLR]</strong> MAYA</span>
+            </a>
+            <a href="javascript:void(0)" class="project-link" style="cursor: default;">
+                <span class="link-content"><strong>[Under Review @ NeurIPS]</strong> Emergent Animal-like Foraging and Functional Circuits in Homeostatic Deep RL Agents</span>
+            </a>
+            <a href="https://scholar.google.com/citations?view_op=view_citation&hl=en&user=EGjWj2MAAAAJ&citation_for_view=EGjWj2MAAAAJ:u-x6o8ySG0sC" target="_blank" class="project-link">
+                <span class="link-content"><strong>[Published]</strong> CAN-Continuously Adapting Network</span>
+            </a>
+        </nav>
 
-            <section id="about">
-                <h3 class="section-header">01. About Me</h3>
-                <div class="text-block">
-                    <p>
-                        Student at <strong>Technische Universität Dresden</strong>, Germany, pursuing a Master’s degree in Computational Modelling and Simulation.
-                    </p>
-                    <p>
-                         Experimenting with Neuroscience and Nature inspired AI topics. Working on Continual Learning to create general and adaptive Neural Networks. 
-                    </p>
-                    <p>
-                        Beyond research, I enjoy Game Development and 3D Graphics (Unity, Godot, Blender).
-                    </p>
-                </div>
-            </section>
+        <nav class="links">
+            <h3>Talks and Posters</h3>
+            <a href="https://scholar.google.com/citations?view_op=view_citation&hl=en&user=EGjWj2MAAAAJ&citation_for_view=EGjWj2MAAAAJ:u5HHmVD_uO8C" target="_blank" class="project-link">
+                <span class="link-content"><strong>[Poster]</strong> Brain-like features in homeostatic deep reinforcement learning agents</span>
+            </a>
+            <a href="https://brainconf.u-bordeaux.fr/assets/Group/24/BrainBody_Abstract_Book.pdf" target="_blank" class="project-link">
+                <span class="link-content"><strong>[Talk @ BrainBody 2025]</strong> Emergence of brain-like features in artificial neural networks trained based on homeostasis. Talk to uncover the neural mechanisms underlying the observed behavior during foraging of Homeostatic RL agents.</span>
+            </a>
+        </nav>
 
-            <section id="projects">
-                <h3 class="section-header">02. Selected Projects</h3>
-                <div class="grid">
-                    
-                    <a href="https://appflowy.com/07ca7474-1e31-4ae7-9af2-abdc07ffecc5/CAN-Continuously-Adapting-Networks-5132ed1b-28ec-4297-9858-ed5c6b6cb7a5" target="_blank" class="card">
-                        <div class="card-header">
-                            <h4>Continuously Adaptive Networks</h4>
-                            <span class="arrow">↗</span>
-                        </div>
-                        <p>Solving catastrophic forgetting using a hybrid of supervised and unsupervised learning techniques.</p>
-                        <div class="tags"><span>Continual Learning</span><span>Research</span></div>
-                    </a>
+        <nav class="links">
+            <h3>Scientific Notes</h3>
+            <% posts.forEach(post => { %>
+                <a href="/posts/<%= post.slug %>" class="note-link">
+                    <span class="link-content">&gt; <%= post.title %></span>
+                    <span class="link-date"><%= post.date %></span>
+                </a>
+            <% }) %>
+        </nav>
 
-                    <a href="https://github.com/Harikrishna-AL/MusicAI_Evolver" target="_blank" class="card">
-                        <div class="card-header">
-                            <h4>MusicAI Evolver</h4>
-                            <span class="arrow">↗</span>
-                        </div>
-                        <p>Experimental system using Particle Swarm Optimization (PSO) to evolve and compose music based on audio input.</p>
-                        <div class="tags"><span>Evolutionary Algo</span><span>Audio</span></div>
-                    </a>
-
-                    <a href="https://github.com/Harikrishna-AL/sasta_skit" target="_blank" class="card">
-                        <div class="card-header">
-                            <h4>Sasta Skit</h4>
-                            <span class="arrow">↗</span>
-                        </div>
-                        <p>Automated call center simulation using VoiceAI and generative models.</p>
-                        <div class="tags"><span>GenAI</span><span>Voice</span></div>
-                    </a>
-
-                </div>
-            </section>
-
-            <section id="notes">
-                <h3 class="section-header">03. Scientific Notes</h3>
-                
-                <div class="notes-list">
-                    <% posts.forEach(post => { %>
-                        <a href="/posts/<%= post.slug %>" class="note-link-item">
-                            <span class="note-date"><%= post.date %></span>
-                            <span class="note-title"><%= post.title %></span>
-                            <span class="note-arrow">&rarr;</span>
-                        </a>
-                    <% }) %>
-                </div>
-            </section>
-
-            <footer>
-                <p>&copy; 2025 Harikrishna Pillai.</p>
-            </footer>
-        </main>
+        <footer>
+            <p>&copy; 2025 Harikrishna Pillai.</p>
+        </footer>
     </div>
 
     <script src="script.js"></script>
